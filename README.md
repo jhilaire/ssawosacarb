@@ -15,6 +15,7 @@ This paper assesses past and future carbonization dynamics in Sub-Sahara Africa.
 This repository contains the scripts created to perform a data analysis of carbonization patterns in Sub-Saharan Africa (without South Africa).
 
 ## Data 
+<strong><italic>Please note that the data underlying this analysis are not included in this repository because (apart from Shearer et al (2018) and Wirth (2018) they are not publically available.</italic></strong>
 ### Historical data
 * IEA (2017)  World Energy Balances. World Energy Balances. IEA. http://www.oecd-ilibrary.org/energy/energy-balances-of-non-oecd-countries-2017_energy_bal_non-oecd-2017-en. (data acquired in January 2018)
 * PLATTS (2017) World Electric Power Plants Database. https://www.platts.com.es/products/world-electric-power-plants-database (data acquired in November 2017)
