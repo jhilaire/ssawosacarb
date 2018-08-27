@@ -758,9 +758,6 @@ plot_kayaDecomposition_rel_10year <- function(iData, i_ylim=c(-140,300)) {
   
 }
 
-library(dplyr)
-library(tidyr)
-library(zoo)
 
 kd_data <- out_data3 %>% 
   rename(year = TIME) %>% 
@@ -933,12 +930,12 @@ regular_countries=c('Albania','Algeria','Angola','Argentina',
                     'ASIA_WO_CHNIND',
                     'Africa',
                     'SSAWOSA')
-jan_countries = c(special_countries, regular_countries)
+jan_countries <- c(special_countries, regular_countries)
 
-jan_countries_africa  = gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 37, 43, 47, 53, 54, 62, 64, 67, 68, 82, 86, 89, 94, 95, 102, 115, 120, 126, 128, 135, 136, 139, 147)]))
-jan_countries_africa_corrected  = c("Mauritius", "South Sudan", "Niger", gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 36, 37, 43, 47, 53, 54, 62, 64, 67, 68, 82, 86, 89, 94, 95, 102, 115, 120, 126, 128, 135, 136, 139, 147)])))
-jan_countries_ssawosa = gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 37, 43, 47, 53, 54,     64, 67, 68, 82, 86,         95, 102, 115, 120, 126,      135, 136,      147)]))
-my_countries_ssawosa  = c("South Sudan", "Niger", gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", c("Angola", "Benin", "Botswana", "Cameroon", "Congo", "Cote_d_Ivoire", "Democratic_Republic_of_Congo", "Ethiopia", "Eritrea",
+jan_countries_africa            <- gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 37, 43, 47, 53, 54, 62, 64, 67, 68, 82, 86, 89, 94, 95, 102, 115, 120, 126, 128, 135, 136, 139, 147)]))
+jan_countries_africa_corrected  <- c("Mauritius", "South Sudan", "Niger", gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 36, 37, 43, 47, 53, 54, 62, 64, 67, 68, 82, 86, 89, 94, 95, 102, 115, 120, 126, 128, 135, 136, 139, 147)])))
+jan_countries_ssawosa           <- gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", jan_countries[c(5, 9, 21, 24, 37, 43, 47, 53, 54,     64, 67, 68, 82, 86,         95, 102, 115, 120, 126,      135, 136,      147)]))
+my_countries_ssawosa            <- c("South Sudan", "Niger", gsub("_", " ", gsub("Cote_d_Ivoire", "Cote d'Ivoire", c("Angola", "Benin", "Botswana", "Cameroon", "Congo", "Cote_d_Ivoire", "Democratic_Republic_of_Congo", "Ethiopia", "Eritrea",
                                                                                                           "Gabon", "Ghana", "Kenya", "Mozambique", "Namibia", "Nigeria", "Senegal", "Sudan", "Tanzania", "Togo", "Zambia", "Zimbabwe",
                                                                                                           "Other_Africa"))))
 
@@ -952,9 +949,6 @@ top20countries <- get_kayaDecompositionFF_20012015_rel(kd_data %>% filter(countr
     get_kayaDecompositionFF_20012015_rel(kd_data %>% 
                                            filter(country %in% my_countries_ssawosa) %>% 
                                            gather(variable,value,-year,-country) %>% 
-                                           # group_by(country,variable) %>% 
-                                           # mutate(value=na.approx(value, na.rm = FALSE)) %>% 
-                                           # ungroup() %>% 
                                            group_by(year,variable) %>% 
                                            summarise(value=sum(value, na.rm=TRUE)) %>% 
                                            ungroup() %>% 
@@ -975,30 +969,6 @@ top20countries <- get_kayaDecompositionFF_20012015_rel(kd_data %>% filter(countr
   )
 
 plot_kayaDecomposition_19702015_rel(kd_data %>% filter(country == "Africa"), i_ylim=c(-10,15))
-
-# plot_kayaDecomposition_19702015_rel(kd_data %>% 
-#                                       filter(country %in% jan_countries_africa) %>% 
-#                                       gather(variable,value,-year,-country) %>% 
-#                                       group_by(country,variable) %>% 
-#                                       mutate(value=na.approx(value, na.rm = FALSE)) %>% 
-#                                       ungroup() %>% 
-#                                       group_by(year,variable) %>% 
-#                                       summarise(value=sum(value, na.rm=TRUE)) %>% 
-#                                       ungroup() %>% 
-#                                       spread(variable, value) %>% 
-#                                       mutate(country="Africa (bottom-up)") %>% 
-#                                       select(country,year,
-#                                              `CO2 Coal and Coal Products`, `CO2 Coal - Announced`, `CO2 Coal - Operating`, `CO2 Coal - Permitted`, `CO2 Coal - Pre-permit development`, `CO2 Coal - Shelved`,
-#                                              `CO2 Oil `, `CO2 Natural Gas `, `CO2 Other `, `CO2 Sectoral Approach (Mt of CO2)`,
-#                                              `Coal and Coal Products`, `Coal - Announced`, `Coal - Operating`, `Coal - Permitted`, `Coal - Pre-permit development`, `Coal - Shelved`,
-#                                              `Oil `,`Natural Gas `,`Other `,`CO2 Reference Approach (Mt of CO2)`,
-#                                              `Total Primary Energy Supply (PJ)`,`Total Primary Energy Supply (Mtoe)`,`GDP (billion 2000 US$ using exchange rates)`,`GDP (billion 2000 US$ using PPPs)`,
-#                                              `Population (millions)`,
-#                                              `PE Coal and Coal Products`, `PE Coal - Announced`, `PE Coal - Operating`, `PE Coal - Permitted`, `PE Coal - Pre-permit development`, `PE Coal - Shelved`,
-#                                              `PE Peat`,`PE Crude, NGL and Feedstocks`,`PE Petroleum Products`,`PE Natural Gas`,
-#                                              `PE Nuclear`,`PE Hydro`,`PE Geothermal`,`PE Solar/Wind/Other`,`PE Combustible Renewables and Waste`,
-#                                              `PE Heat Production from non-specified comb.fuels`,`PE Electricity`,`Heat`,`Total Primary Energy Supply (ktoe)`), 
-#                                     i_ylim=c(-10,15))
 
 plot_kayaDecomposition_19702015_rel(kd_data %>% 
                                       filter(country %in% jan_countries_africa_corrected) %>% 
@@ -1025,37 +995,10 @@ plot_kayaDecomposition_19702015_rel(kd_data %>%
                                     i_ylim=c(-10,15),
                                     title = "a) Africa") 
 ggsave(filename = "../plots/Figure1a.png", width = 20, height=15, units = "cm")  
-# plot_kayaDecomposition_19702015_rel(kd_data %>% 
-#                                       filter(country %in% jan_countries_ssawosa) %>% 
-#                                       gather(variable,value,-year,-country) %>% 
-#                                       group_by(country,variable) %>% 
-#                                       mutate(value=na.approx(value, na.rm = FALSE)) %>% 
-#                                       ungroup() %>% 
-#                                       group_by(year,variable) %>% 
-#                                       summarise(value=sum(value, na.rm=TRUE)) %>% 
-#                                       ungroup() %>% 
-#                                       spread(variable, value) %>% 
-#                                       mutate(country="Africa (bottom-up)") %>% 
-#                                       select(country,year,
-#                                              `CO2 Coal and Coal Products`, `CO2 Coal - Announced`, `CO2 Coal - Operating`, `CO2 Coal - Permitted`, `CO2 Coal - Pre-permit development`, `CO2 Coal - Shelved`,
-#                                              `CO2 Oil `, `CO2 Natural Gas `, `CO2 Other `, `CO2 Sectoral Approach (Mt of CO2)`,
-#                                              `Coal and Coal Products`, `Coal - Announced`, `Coal - Operating`, `Coal - Permitted`, `Coal - Pre-permit development`, `Coal - Shelved`,
-#                                              `Oil `,`Natural Gas `,`Other `,`CO2 Reference Approach (Mt of CO2)`,
-#                                              `Total Primary Energy Supply (PJ)`,`Total Primary Energy Supply (Mtoe)`,`GDP (billion 2000 US$ using exchange rates)`,`GDP (billion 2000 US$ using PPPs)`,
-#                                              `Population (millions)`,
-#                                              `PE Coal and Coal Products`, `PE Coal - Announced`, `PE Coal - Operating`, `PE Coal - Permitted`, `PE Coal - Pre-permit development`, `PE Coal - Shelved`,
-#                                              `PE Peat`,`PE Crude, NGL and Feedstocks`,`PE Petroleum Products`,`PE Natural Gas`,
-#                                              `PE Nuclear`,`PE Hydro`,`PE Geothermal`,`PE Solar/Wind/Other`,`PE Combustible Renewables and Waste`,
-#                                              `PE Heat Production from non-specified comb.fuels`,`PE Electricity`,`Heat`,`Total Primary Energy Supply (ktoe)`), 
-#                                     i_ylim=c(-10,15))
-
 
 plot_kayaDecomposition_19702015_rel(kd_data %>% 
                                       filter(country %in% my_countries_ssawosa) %>% 
                                       gather(variable,value,-year,-country) %>% 
-                                      # group_by(country,variable) %>% 
-                                      # mutate(value=na.approx(value, na.rm = FALSE)) %>% 
-                                      # ungroup() %>% 
                                       group_by(year,variable) %>% 
                                       summarise(value=sum(value, na.rm=TRUE)) %>% 
                                       ungroup() %>% 
@@ -1128,7 +1071,8 @@ plot_kayaDecompositionFF_19702015_rel(kd_data %>%
                                       i_ylim=c(-12,12),
                                       title = "b) Sub-Saharan Africa (w/o South Africa)",
                                       LEGEND=TRUE)
-ggsave(filename = "../plots/Figure2b.png", width = 20, height=15, units = "cm")  
+ggsave(filename = "plots/Figure2b.png", width = 20, height=15, units = "cm")  
+
 
 test_differences <- kd_data %>% 
   filter(country == "Africa") %>% 

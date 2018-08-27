@@ -1,6 +1,3 @@
-library(readxl)
-library(tidyverse)
-
 get_kayaDecomposition_SSP <- function(iData, i_ylim=c(-140,300), onlyCI=FALSE) {
   
   #== Initialization ===========================================================
@@ -1026,11 +1023,11 @@ plot_kayaDecompositionFF_SSP_rel <- function(iData, i_ylim=c(-140,300)) {
   
 }
 
-data_ssp1 <- readxl::read_xlsx("SSP1_IMAGE_SSA_data.xlsx")
-data_ssp2 <- readxl::read_xlsx("SSP2_MESSAGE_SSA_data.xlsx", sheet = "reformatted")
-data_ssp3 <- readxl::read_xlsx("SSP3_AIM_SSA_data.xlsx")
-data_ssp4 <- readxl::read_xlsx("SSP4_GCAM_SSA_data.xlsx")
-data_ssp5 <- readxl::read_xlsx("SSP5_REMIND_SSA_data.xlsx")
+data_ssp1 <- readxl::read_xlsx("data/SSP/SSP1_IMAGE_SSA_data.xlsx")
+data_ssp2 <- readxl::read_xlsx("data/SSP/SSP2_MESSAGE_SSA_data.xlsx", sheet = "reformatted")
+data_ssp3 <- readxl::read_xlsx("data/SSP/SSP3_AIM_SSA_data.xlsx")
+data_ssp4 <- readxl::read_xlsx("data/SSP/SSP4_GCAM_SSA_data.xlsx")
+data_ssp5 <- readxl::read_xlsx("data/SSP/SSP5_REMIND_SSA_data.xlsx")
 
 format_data_ssp1 <- function(i_data) {
   
@@ -1106,6 +1103,8 @@ format_data_ssp5 <- function(i_data) {
   return(out)
 }
 
+
+#== PROCESS DATA =====================================
 data_ssp_markers <- rbind(
   data_ssp1 %>% 
     format_data_ssp1() %>% 
@@ -1197,7 +1196,7 @@ data_ssp_markers <- rbind(
   mutate(ssp = factor(ssp)) %>% 
   mutate(climate_target = factor(climate_target))
 
-# Interpolate values 
+#-- Interpolate values  ---------------------------------
 data_ssp_markers <- rbind(data_ssp_markers,
                           data_ssp_markers %>% 
                             filter(period %in% c(2010,2020,2030)) %>% 
@@ -1216,56 +1215,16 @@ data_ssp_markers <- rbind(data_ssp_markers,
 
 kaya_decomposition <- get_kayaDecomposition_SSP(data_ssp_markers %>% filter(period %in% c(2010,2015,2025)))
 p <- kaya_decomposition$plot + theme(text=element_text(size=18))
-#ggsave(p, filename = "../plots/compare_to_SSPs_20180806.png", width=12, height=8)
-#ggsave(p, filename = "../plots/compare_to_SSPs_20180806.svg", width=12, height=8)
+plot(p)
 
 ext_kaya_decomposition <- get_kayaDecompositionFF_SSP(data_ssp_markers %>% filter(period %in% c(2015,2025)))
 p <- ext_kaya_decomposition$plot +
   scale_y_continuous(breaks = seq(-400,500,100)) +
   theme(text=element_text(size=18))
+
 print(p)
-ggsave(p, filename = "../plots/Figure4.png", width=12, height=8)
-ggsave(p, filename = "../plots/Figure4.svg", width=12, height=8)
 
+ggsave(p, filename = "plots/Figure4.png", width=12, height=8)
+ggsave(p, filename = "plots/Figure4.svg", width=12, height=8)
 
-
-kaya_decomposition$data %>% 
-  filter(variable %in% c("Ck", "Ckc")) %>% 
-  mutate(sspDt = paste0(ssp, "_", Dt)) %>% 
-  select(-period, -ssp, -Dt) %>% 
-  spread(sspDt, value) %>%
-  write.csv2(file="compare_to_SSPs_data.csv")
-
-plot_kayaDecomposition_SSP(data_ssp_markers)
-plot_kayaDecomposition_SSP_5yr(data_ssp_markers)
-plot_kayaDecomposition_SSP(data_ssp_markers, onlyCI=T)
-plot_kayaDecomposition_SSP_5yr(data_ssp_markers, onlyCI=T)
-plot_kayaDecomposition_SSP_rel(data_ssp_markers)
-plot_kayaDecomposition_SSP_rel(data_ssp_markers, onlyCI=T)
-
-plot_kayaDecompositionFF_SSP(data_ssp_markers)
-plot_kayaDecompositionFF_SSP_5yr(data_ssp_markers)
-
-ggplot(data_ssp_markers %>% 
-         filter(variable %in% c("PE|Coal", "PE|Oil", "PE|Gas", "PE|Nuclear", "PE|Wind", "PE|Solar", "PE|Hydro", "PE|Geothermal", "PE|Biomass"))) +
-  geom_line(aes(x=period, y=value, color=climate_target), lwd=1) +
-  facet_grid(variable~ssp, scales="free_y")
-
-ggplot(data_ssp_markers %>% 
-         filter(variable %in% c("Em|CO2", "Em|CO2|Fossil Fuels and Industry", "Em|CO2|Coal", "Em|CO2|Oil", "Em|CO2|Gas"))) +
-  geom_line(aes(x=period, y=value, color=climate_target), lwd=1) +
-  facet_grid(variable~ssp, scales="free_y")
-
-
-data_kayadec_ssp_rel <- plot_kayaDecomposition_SSP_rel(data_ssp_markers, onlyCI=T)
-
-ggplot() +
-  geom_boxplot(aes(x=1, y=value), data=data_kayadec_ssp_rel %>% filter(variable == "Ck", period == "2010-2020")) +
-  geom_jitter(aes(x=1, y=value, colour=ssp), data=data_kayadec_ssp_rel %>% filter(variable == "Ck", period == "2010-2020"), colour="black") +
-  geom_boxplot(aes(x=2, y=value), data=data_kayadec_ssp_rel %>% filter(variable == "Ck", period == "2020-2030")) +
-  geom_jitter(aes(x=2, y=value, colour=ssp), data=data_kayadec_ssp_rel %>% filter(variable == "Ck", period == "2020-2030"), colour="black") + 
-  #geom_jitter(aes(x=1, y=value), data=data_kayadec_ssp_rel %>% filter(variable == "Ck", period == "2010-2020", climate_target == "26 or 34"), colour="red") +
-  geom_segment(aes(x=0, xend=2, y=value, yend=value), data=KD_SSA_data %>% filter(variable == "Ck", period == "2010-2020"), colour="red") +
-  geom_point(aes(x=0, y=value), data=KD_SSA_data %>% filter(variable == "Ck", period == "2010-2020"), colour="red", size=4) +
-  theme_bw()
-ggsave(filename = "data_vs_SSPs.pdf", width=10, height=7)
+write.csv2(ext_kaya_decomposition$data %>% spread(variable, value), file = "output/data_Figure4.csv")

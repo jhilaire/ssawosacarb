@@ -1,12 +1,4 @@
 # Transform IEA raw csv files to RData files
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-
-u_countries           <- c('Angola', 'Benin', 'Botswana', 'Cameroon', 'Congo', "Côte d'Ivoire", 'Democratic Republic of the Congo', 
-                           'Eritrea', 'Ethiopia', 'Gabon', 'Ghana', 'Kenya', 'Mozambique', 'Namibia', 'Niger', 
-                           'Nigeria', 'Senegal', 'South Sudan', 'Sudan', 'Tanzania', 'Togo', 'Zambia', 'Zimbabwe', 'Other Africa')
-
 # World Energy Balances
 data_wbal   <- read.csv2("data/IEA 2017/wbal_all_ktoe.csv", stringsAsFactors = FALSE)
 ncols       <- ncol(data_wbal)

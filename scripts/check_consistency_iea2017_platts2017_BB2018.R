@@ -1,17 +1,8 @@
 # Check consistency between IEA2017 and PLATTS 2017
 #==== User section ============================================================
-u_countries <- c('Angola', 'Benin', 'Botswana', 'Cameroon', 'Congo', "Cote d'Ivoire", 'Democratic Republic of the Congo', 
-                 'Eritrea', 'Ethiopia', 'Gabon', 'Ghana', 'Kenya', 'Mauritius', 'Mozambique', 'Namibia', 'Niger', 
-                 'Nigeria', 'Senegal', 'South Sudan', 'Sudan', 'Tanzania', 'Togo', 'Zambia', 'Zimbabwe', 'Other Africa')
 u_years <- 2010:2015
 
-
 #==== INITIALISE ==============================================================
-# Libraries
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-
 # Own functions
 get_annualcap <- function(i_df, i_years) {
   out <- data.frame(
@@ -74,9 +65,6 @@ if (!file.exists("data/IEA 2017/wbal_all_ktoe.RData")) {
 # Get PLATTS 2017 data
 load("data/PLATTS 2017/ALLUNITS_AFRICA.RData")
 data_platts <- read.csv("data/PLATTS 2017/ALLUNITS.csv")
-
-# Get Coalswarm data
-data_coalswarm <- readxl::read_xlsx("data/Shearer et al 2018 - Coal Africa.xlsx")
 
 
 #==== PROCESS DATA ============================================================
@@ -486,10 +474,6 @@ p <- ggplot(tmp_data) +
   geom_line(aes(year,load_factor))
 print(p)
 
-
-
-
-
 #-- Which SSA country has other coal usages than man elec and what is it ------
 tmp_data1 <- data_wbal_ssa %>% 
   gather(prodflow, value, -country, -year) %>% 
@@ -668,8 +652,8 @@ p <- ggplot() +
   guides(fill=guide_legend(nrow = 2, byrow=TRUE)) + 
   xlab("") + ylab("Coal consumption [ktoe]")
 print(p)
-ggsave(p, filename = "Coal_consumption_SSA_by_activity.png", width=10, height=8)
-ggsave(p, filename = "Coal_consumption_SSA_by_activity.svg", width=10, height=8)
+ggsave(p, filename = "../plots/Coal_consumption_SSA_by_activity.png", width=10, height=8)
+ggsave(p, filename = "../plots/Coal_consumption_SSA_by_activity.svg", width=10, height=8)
 
 p <- ggplot() +
   geom_area(aes(year, value, fill=prodflow), data=tmp_data5 %>% filter(year > 1970, prodflow!="TPES")) +
@@ -681,8 +665,8 @@ p <- ggplot() +
   scale_fill_manual("Coal usage", values = u_colorscale_coal_usage) +
   xlab("") + ylab("Coal consumption [ktoe]")
 print(p)
-ggsave(p, filename = "Coal_consumption_SSA_by_activity_by_region.png", width=10, height=8)
-ggsave(p, filename = "Coal_consumption_SSA_by_activity_by_region.svg", width=10, height=8)
+ggsave(p, filename = "../plots/Coal_consumption_SSA_by_activity_by_region.png", width=10, height=8)
+ggsave(p, filename = "../plots/Coal_consumption_SSA_by_activity_by_region.svg", width=10, height=8)
 
 
 #-- Other coal acivities over time in SSA --------------

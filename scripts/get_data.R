@@ -1,7 +1,7 @@
 if (u_getandpprocdata) {
   #== GET DATA ============================
   # Get SSA countries
-  data_ssa = read_xlsx("data/SSA_countries.xlsx") %>% 
+  data_ssa <- read_xlsx("data/SSA_countries.xlsx") %>% 
     select(Country, ISO, COUNTRY_PLATTS, COUNTRY_COALSWARM) %>% 
     filter(ISO != "ZAF") # remove South Africa
   
@@ -9,7 +9,8 @@ if (u_getandpprocdata) {
   data_pp <- list()
   data_pp$coal  = readxl::read_xlsx("data/Global Coal Plant Tracker Feb 2017c.xlsx", sheet = "Projects") %>%
     filter(Region == "Africa and Middle East") %>%
-    filter(!Country %in% c("Egypt", "Iran", "Israel", "Jordan", "Morocco", "Oman", "South Africa", "Syria", "United Arab Emirates")) #, "Madagascar", "Mauritius", , "Reunion"
+    filter(!Country %in% c("Egypt", "Iran", "Israel", "Jordan", "Morocco", "Oman", "South Africa", "Syria", "United Arab Emirates"))
+  
   if (!file.exists("data/PLATTS 2017/ALLUNITS_AFRICA.RData")) {
     data_pp_other <- read.csv("data/PLATTS 2017/ALLUNITS.csv")
     data_abbrev   <- read_xlsx("data/PLATTS 2017/ABBREV.xlsx")

@@ -5,7 +5,6 @@
 #  - Only considering coal and gas power plants under construction at the moment
 #  - Hydro capacities are aggregated into planned and under construction at the moment
 
-
 # Time
 u_year                <- 2025
 u_coal_loadFactor     <- seq(0.2,0.7,0.05)

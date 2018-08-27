@@ -6,6 +6,9 @@ library(ggplot2)
 library(remind)
 library(luplot)
 library(directlabels)
+library(openxlsx)
+library(readxl)
+library(zoo)
 
 # Own functions
 grep2       <- function(v,p, ...) {return(grep(p,v, ...))}
