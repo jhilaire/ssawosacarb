@@ -1,4 +1,4 @@
-# Lions in the dragon’s shoes? On carbonization patterns in Sub-Sahara Africa
+# Coal and carbonization in sub-Saharan Africa
 
 ## Authors
 Jan Christoph Steckel, Jérôme Hilaire, Michael Jakob and Ottmar Edenhofer
@@ -9,7 +9,10 @@ Jan Christoph Steckel, Jérôme Hilaire, Michael Jakob and Ottmar Edenhofer
 * Potsdam Institute for Climate Change Impact Research, Telegrafenberg, 14473 Potsdam, Germany
 
 ## Abstract
-This paper assesses past and future carbonization dynamics in Sub-Sahara Africa. We investigate the evolution of emission changes in the last decades and analyze the underlying drivers.  We show that since 2005 emission growth in Sub-Sahara Africa has mainly been due to the growth of GDP and population. Changes in the carbon intensity play an increasingly important role. These changes have been driven mainly by the rapidly increasing use of oil, i.e. by the transportation sector. Combining investment data in the power sector with economic and population projections, we find that in the near future investments in coal-fired capacities currently planned and under construction can be expected to be a major driver of future carbonization. Our results highlight the importance of making low-carbon technologies available and financially attractive for Sub-Saharan African countries to avoid a lock-in of emission-intensive energy use patterns.
+Economic development in sub-Saharan Africa has increased carbon emissions and will continue to do so. However, changes in emissions in the past few decades and their underlying drivers are not well understood. Here we use a Kaya decomposition to show that rising carbon intensity has played an increasingly important role in emission growth in sub-Saharan Africa since 2005. These changes have mainly been driven by the increasing use of oil, especially in the transportation sector. Combining investment data in the power sector with economic and population projections, we find that investments in new coal-fired capacity may become a major driver of future carbonization. Our results highlight the importance of making low-carbon technologies available and financially attractive to sub-Saharan African countries to avoid a lock-in of emission-intensive energy use patterns.
+
+## Link to the study
+https://www.nature.com/articles/s41558-019-0649-8
 
 ## Description
 This repository contains the scripts created to perform a data analysis of carbonization patterns in Sub-Saharan Africa (without South Africa).
